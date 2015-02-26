@@ -1,0 +1,128 @@
+<?php
+
+namespace Alpha\VisitorTrackingBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/**
+ * @ORM\Entity()
+ */
+class Device
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="device")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $session;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    protected $fingerprint;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $canvas;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $fonts;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $navigator;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $plugins;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $screen;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $systemColors;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $storedIds;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $created;
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setSession(Session $session = null)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function setFingerprint($fingerprint)
+    {
+        $this->fingerprint = $fingerprint;
+
+        return $this;
+    }
+
+    public function getFingerprint()
+    {
+        return $this->fingerprint;
+    }
+
+    /**
+     * Set created
+     *
+     * @param  \DateTime $created
+     * @return Session
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "lendable/visitor-tracking-bundle",
+  "type": "symfony-bundle",
+  "description": "visitor tracking bundle",
+  "keywords": [
+    "tracking",
+    "Symfony2"
+  ],
+  "homepage": "https://github.com/Lendable/VisitorTrackingBundle.git",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "The Lendable Team",
+      "email": "contact@lendable.co.uk"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "symfony/framework-bundle": "~2.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "Alpha\\VisitorTrackingBundle": ""
+    }
+  },
+  "target-dir": "Alpha/VisitorTrackingBundle"
+}

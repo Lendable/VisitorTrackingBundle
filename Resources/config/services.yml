@@ -1,0 +1,12 @@
+parameters:
+#    alpha_visitor_tracking.example.class: Alpha\VisitorTrackingBundle\Example
+
+services:
+    alpha.visitor_tracking_subscriber:
+        class: Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    alpha.visitor_tracking.manager.device_fingerprint:
+        class: Alpha\VisitorTrackingBundle\Manager\DeviceFingerprintManager
