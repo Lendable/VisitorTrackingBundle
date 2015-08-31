@@ -18,7 +18,7 @@ class Device
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="device")
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="devices")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $session;
