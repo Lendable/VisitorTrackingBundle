@@ -4,7 +4,7 @@ parameters:
 services:
     alpha.visitor_tracking_subscriber:
         class: Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_subscriber }
 

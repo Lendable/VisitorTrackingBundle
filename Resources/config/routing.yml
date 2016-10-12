@@ -1,5 +1,5 @@
 _alpha_device_fingerprint:
-    pattern: /device/fingerprint
+    path: /device/fingerprint
     defaults: { _controller: AlphaVisitorTrackingBundle:Device:fingerprint }
     options:
         expose: true
