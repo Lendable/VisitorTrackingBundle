@@ -68,11 +68,6 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
             return;
         }
 
-        //for backwards compatibility with the old "source" url parameter
-        if ($request->query->has("source") and !$request->query->has("utm_source")) {
-            $request->query->set("utm_source", $request->query->get("source"));
-        }
-
         if ($request->cookies->has(self::COOKIE_SESSION) and !$this->requestHasUTMParameters($request)) {
             $this->session = $this->em->getRepository("AlphaVisitorTrackingBundle:Session")->find($request->cookies->get(self::COOKIE_SESSION));
 
