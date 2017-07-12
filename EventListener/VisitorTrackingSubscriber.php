@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Paul
- * Date: 17/04/14
- * Time: 17:11
- */
 
 namespace Alpha\VisitorTrackingBundle\EventListener;
 
@@ -44,6 +38,9 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
      */
     protected $lifetime;
 
+    /**
+     * @var array
+     */
     protected $utmCodes = [
         "utm_source",
         "utm_medium",
@@ -55,11 +52,17 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
     const COOKIE_LIFETIME = "lifetime";
     const COOKIE_SESSION = "session";
 
+    /**
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
     }
 
+    /**
+     * @param GetResponseEvent $event
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -81,6 +84,10 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param FilterResponseEvent $event
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (false === $this->session instanceof Session) {
@@ -99,7 +106,19 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
 
         $this->session->addPageView($pageView);
 
-        $this->em->flush($this->session);
+        try {
+            $this->em->flush();
+        } catch (\Doctrine\ORM\ORMException $e) {
+            if (!$this->em->isOpen()) {
+                $this->em = $this->em->create(
+                    $this->em->getConnection(),
+                    $this->em->getConfiguration()
+                );
+                $this->em->flush();
+            } else {
+                throw $e;
+            }
+        }
 
         if ($this->requestHasUTMParameters($request)) {
             $this->setUTMSessionCookies($request, $response);
@@ -114,6 +133,10 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     protected function requestHasUTMParameters(Request $request)
     {
         foreach ($this->utmCodes as $code) {
@@ -125,6 +148,10 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         return false;
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     protected function setUTMSessionCookies(Request $request, Response $response)
     {
         foreach ($this->utmCodes as $code) {
@@ -151,6 +178,9 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         return $this->lifetime;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array(
@@ -159,6 +189,10 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param Request $request
+     * @throws \Doctrine\ORM\ORMException
+     */
     private function generateSessionAndLifetime(Request $request)
     {
         $lifetime = false;
@@ -182,7 +216,19 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         }
         $lifetime->addSession($session);
 
-        $this->em->flush();
+        try {
+            $this->em->flush();
+        } catch (\Doctrine\ORM\ORMException $e) {
+            if (!$this->em->isOpen()) {
+                $this->em = $this->em->create(
+                    $this->em->getConnection(),
+                    $this->em->getConfiguration()
+                );
+                $this->em->flush();
+            } else {
+                throw $e;
+            }
+        }
 
         $this->session = $session;
         $this->lifetime = $lifetime;
