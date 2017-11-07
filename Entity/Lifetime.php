@@ -145,10 +145,18 @@ class Lifetime
     }
 
     /**
+     * $weights is an optional array, ideally associative to name your variations and set their likelihood
+     * eg you want 75% of people to see a green button and 25% to see red use:
+     * $name = "button-colour-test";
+     * $numberOfValues = 2;
+     * $weights = ["green" => 3, "red" => 1]; (or ["green" => 75, "red" => 25])
+     * This method will then return the string "green" 75% of the time and "red" 25% of the time. Since this cookie lasts 2 years, its very sticky
+     * Querying your test results then becomes very easy and descriptive
+     *
      * @param $name
      * @param $numberOfValues
      * @param null $weights
-     * @return int
+     * @return string
      */
     public function getSeed($name, $numberOfValues, $weights = null)
     {

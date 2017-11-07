@@ -30,8 +30,8 @@ class Seed
     protected $name;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="string")
      */
     protected $value;
 
