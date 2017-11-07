@@ -122,7 +122,7 @@ class Lifetime
     {
         if (!$this->seeds->contains($seed)) {
             $seed->setLifetime($this);
-            $this->seeds->addElement($seed);
+            $this->seeds->add($seed);
         }
 
         return $this;
