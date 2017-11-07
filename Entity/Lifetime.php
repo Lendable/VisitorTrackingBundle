@@ -162,15 +162,14 @@ class Lifetime
     {
         foreach($this->seeds as $seed)
         {
-            /** @var Seed $seed */
             if($seed->getName() === $name) {
-                return $seed->getValue();
-            } else {
-                $seed = new Seed($name, $numberOfValues, $weights);
-                $this->addSeed($seed);
-
                 return $seed->getValue();
             }
         }
+
+        $seed = new Seed($name, $numberOfValues, $weights);
+        $this->addSeed($seed);
+
+        return $seed->getValue();
     }
 }
