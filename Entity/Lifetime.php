@@ -33,9 +33,10 @@ class Lifetime
     protected $created;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var ArrayCollection|Seed[]
+     * @ORM\OneToMany(targetEntity="Seed", mappedBy="lifetime", cascade={"persist"})
      */
-    protected $seed;
+    protected $seeds;
 
     /**
      * Constructor
@@ -43,7 +44,7 @@ class Lifetime
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
-        $this->setSeed(mt_rand(1, 100));
+        $this->seeds = new ArrayCollection();
     }
 
     /**
@@ -114,25 +115,54 @@ class Lifetime
     }
 
     /**
-     * Set seed
-     *
-     * @param integer $seed
-     * @return Lifetime
+     * @param Seed $seed
+     * @return $this
      */
-    public function setSeed($seed)
+    public function addSeed(Seed $seed)
     {
-        $this->seed = $seed;
+        if (!$this->seeds->contains($seed)) {
+            $seed->setLifetime($this);
+            $this->seeds->addElement($seed);
+        }
 
         return $this;
     }
 
     /**
-     * Get seed
-     *
-     * @return integer 
+     * @param Seed $seed
      */
-    public function getSeed()
+    public function removeSeed(Seed $seed)
     {
-        return $this->seed;
+        $this->seeds->removeElement($seed);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getSeeds()
+    {
+        return $this->seeds;
+    }
+
+    /**
+     * @param $name
+     * @param $numberOfValues
+     * @param null $weights
+     * @return int
+     */
+    public function getSeed($name, $numberOfValues, $weights = null)
+    {
+        foreach($this->seeds as $seed)
+        {
+            /** @var Seed $seed */
+            if($seed->getName() === $name) {
+                return $seed->getValue();
+            } else {
+                $seed = new Seed($name, $numberOfValues, $weights);
+                $this->addSeed($seed);
+
+                return $seed->getValue();
+            }
+        }
     }
 }
