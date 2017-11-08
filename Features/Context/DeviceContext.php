@@ -47,7 +47,6 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
 
         $lifetime = new Lifetime();
         $lifetime->addSession($session);
-        $lifetime->setSeed(12356);
         $session->setLifetime($lifetime);
 
         $this->entityManager->persist($lifetime);
