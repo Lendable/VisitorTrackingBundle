@@ -1,7 +1,7 @@
 Visitor Tracking Bundle
 =======================
 
-A Symfony2 bundle to track the requests.
+A Symfony2 bundle to track requests.
 
 ## Upgrading from 0.x to 1.x
 

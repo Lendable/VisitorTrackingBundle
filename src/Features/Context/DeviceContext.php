@@ -16,11 +16,11 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
     private $entityManager;
 
     private $utmCodes = [
-        "utm_source",
-        "utm_medium",
-        "utm_campaign",
-        "utm_term",
-        "utm_content"
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content'
     ];
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -35,14 +35,14 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
     {
         $session = new Session();
         $session->setIp('127.0.0.1');
-        $session->setReferrer("");
-        $session->setUserAgent("");
-        $session->setQueryString("");
-        $session->setLoanTerm("");
-        $session->setRepApr("");
+        $session->setReferrer('');
+        $session->setUserAgent('');
+        $session->setQueryString('');
+        $session->setLoanTerm('');
+        $session->setRepApr('');
         foreach ($this->utmCodes as $code) {
-            $method = "set" . Inflector::classify($code);
-            $session->$method("");
+            $method = 'set'. Inflector::classify($code);
+            $session->$method('');
         }
 
         $lifetime = new Lifetime();

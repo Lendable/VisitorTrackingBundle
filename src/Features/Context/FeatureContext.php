@@ -16,6 +16,9 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 
     /**
      * @Given /^the cookie "([^"]*)" has the value "([^"]*)"$/
+     *
+     * @param string $name
+     * @param string $value
      */
     public function theCookieHasTheValue($name, $value)
     {

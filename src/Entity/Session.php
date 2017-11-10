@@ -1,26 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Paul
- * Date: 08/09/14
- * Time: 19:30
- */
+
+declare(strict_types=1);
 
 namespace Alpha\VisitorTrackingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Class Session
- * @package Alpha\VisitorTrackingBundle\Entity
- *
  * @ORM\Entity()
  * @ORM\Table(name="session",indexes={@ORM\Index(name="session_created_index", columns={"created"})})
  */
 class Session
 {
     /**
+     * @var string
+     *
      * @ORM\Column(type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
@@ -28,109 +25,144 @@ class Session
     protected $id;
 
     /**
+     * @var Lifetime
+     *
      * @ORM\ManyToOne(targetEntity="Lifetime", inversedBy="sessions")
      */
     protected $lifetime;
 
     /**
+     * @var Collection|PageView[]
+     *
      * @ORM\OneToMany(targetEntity="PageView", mappedBy="session", cascade={"persist"})
      */
     protected $pageViews;
 
     /**
+     * @var Collection|Device[]
+     *
      * @ORM\OneToMany(targetEntity="Device", mappedBy="session", cascade={"persist"})
      */
     protected $devices;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $ip;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $referrer;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $userAgent;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $queryString;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $utmSource;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $utmMedium;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $utmCampaign;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $utmTerm;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $utmContent;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $loanTerm;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $repApr;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     protected $created;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        $this->pageViews = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pageViews = new ArrayCollection();
+        $this->devices = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getId();
+        $id = $this->getId();
+
+        if (!\is_string($id)) {
+            return 'N/A';
+        }
+
+        return $id;
     }
 
-    /**
-     * Get id
-     *
-     * @return string
-     */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Set ip
-     *
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
      * @param  string $ip
+     *
      * @return Session
      */
     public function setIp($ip)
@@ -141,19 +173,16 @@ class Session
     }
 
     /**
-     * Get ip
-     *
      * @return string
      */
-    public function getIp()
+    public function getReferrer()
     {
-        return $this->ip;
+        return $this->referrer;
     }
 
     /**
-     * Set referrer
-     *
      * @param  string $referrer
+     *
      * @return Session
      */
     public function setReferrer($referrer)
@@ -164,19 +193,16 @@ class Session
     }
 
     /**
-     * Get referrer
-     *
      * @return string
      */
-    public function getReferrer()
+    public function getUserAgent()
     {
-        return $this->referrer;
+        return $this->userAgent;
     }
 
     /**
-     * Set userAgent
-     *
      * @param  string $userAgent
+     *
      * @return Session
      */
     public function setUserAgent($userAgent)
@@ -187,19 +213,16 @@ class Session
     }
 
     /**
-     * Get userAgent
-     *
      * @return string
      */
-    public function getUserAgent()
+    public function getQueryString()
     {
-        return $this->userAgent;
+        return $this->queryString;
     }
 
     /**
-     * Set queryString
-     *
      * @param  string $queryString
+     *
      * @return Session
      */
     public function setQueryString($queryString)
@@ -210,19 +233,16 @@ class Session
     }
 
     /**
-     * Get queryString
-     *
      * @return string
      */
-    public function getQueryString()
+    public function getUtmSource()
     {
-        return $this->queryString;
+        return $this->utmSource;
     }
 
     /**
-     * Set utmSource
-     *
      * @param  string $utmSource
+     *
      * @return Session
      */
     public function setUtmSource($utmSource)
@@ -233,19 +253,16 @@ class Session
     }
 
     /**
-     * Get utmSource
-     *
      * @return string
      */
-    public function getUtmSource()
+    public function getUtmMedium()
     {
-        return $this->utmSource;
+        return $this->utmMedium;
     }
 
     /**
-     * Set utmMedium
-     *
      * @param  string $utmMedium
+     *
      * @return Session
      */
     public function setUtmMedium($utmMedium)
@@ -256,19 +273,16 @@ class Session
     }
 
     /**
-     * Get utmMedium
-     *
      * @return string
      */
-    public function getUtmMedium()
+    public function getUtmCampaign()
     {
-        return $this->utmMedium;
+        return $this->utmCampaign;
     }
 
     /**
-     * Set utmCampaign
-     *
      * @param  string $utmCampaign
+     *
      * @return Session
      */
     public function setUtmCampaign($utmCampaign)
@@ -279,19 +293,16 @@ class Session
     }
 
     /**
-     * Get utmCampaign
-     *
      * @return string
      */
-    public function getUtmCampaign()
+    public function getUtmTerm()
     {
-        return $this->utmCampaign;
+        return $this->utmTerm;
     }
 
     /**
-     * Set utmTerm
-     *
      * @param  string $utmTerm
+     *
      * @return Session
      */
     public function setUtmTerm($utmTerm)
@@ -302,19 +313,16 @@ class Session
     }
 
     /**
-     * Get utmTerm
-     *
      * @return string
      */
-    public function getUtmTerm()
+    public function getUtmContent()
     {
-        return $this->utmTerm;
+        return $this->utmContent;
     }
 
     /**
-     * Set utmContent
-     *
      * @param  string $utmContent
+     *
      * @return Session
      */
     public function setUtmContent($utmContent)
@@ -325,19 +333,16 @@ class Session
     }
 
     /**
-     * Get utmContent
-     *
      * @return string
      */
-    public function getUtmContent()
+    public function getLoanTerm()
     {
-        return $this->utmContent;
+        return $this->loanTerm;
     }
 
     /**
-     * Set loanTerm
-     *
      * @param  string $loanTerm
+     *
      * @return Session
      */
     public function setLoanTerm($loanTerm)
@@ -348,19 +353,16 @@ class Session
     }
 
     /**
-     * Get loanTerm
-     *
      * @return string
      */
-    public function getLoanTerm()
+    public function getRepApr()
     {
-        return $this->loanTerm;
+        return $this->repApr;
     }
 
     /**
-     * Set repApr
-     *
      * @param  string $repApr
+     *
      * @return Session
      */
     public function setRepApr($repApr)
@@ -371,31 +373,6 @@ class Session
     }
 
     /**
-     * Get repApr
-     *
-     * @return string
-     */
-    public function getRepApr()
-    {
-        return $this->repApr;
-    }
-
-    /**
-     * Set created
-     *
-     * @param  \DateTime $created
-     * @return Session
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -404,22 +381,19 @@ class Session
     }
 
     /**
-     * Set lifetime
+     * @param  \DateTime $created
      *
-     * @param  \Alpha\VisitorTrackingBundle\Entity\Lifetime $lifetime
      * @return Session
      */
-    public function setLifetime(\Alpha\VisitorTrackingBundle\Entity\Lifetime $lifetime = null)
+    public function setCreated(\DateTime $created)
     {
-        $this->lifetime = $lifetime;
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get lifetime
-     *
-     * @return \Alpha\VisitorTrackingBundle\Entity\Lifetime
+     * @return Lifetime
      */
     public function getLifetime()
     {
@@ -427,53 +401,88 @@ class Session
     }
 
     /**
-     * Add pageViews
+     * @param  Lifetime $lifetime
      *
-     * @param  \Alpha\VisitorTrackingBundle\Entity\PageView $pageViews
      * @return Session
      */
-    public function addPageView(\Alpha\VisitorTrackingBundle\Entity\PageView $pageViews)
+    public function setLifetime(?Lifetime $lifetime = null)
     {
-        $this->pageViews[] = $pageViews;
-        $pageViews->setSession($this);
+        $this->lifetime = $lifetime;
+
+        if (!$this->lifetime->getSessions()->contains($this)) {
+            $this->lifetime->addSession($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove pageViews
+     * @param  PageView $pageView
      *
-     * @param \Alpha\VisitorTrackingBundle\Entity\PageView $pageViews
+     * @return Session
      */
-    public function removePageView(\Alpha\VisitorTrackingBundle\Entity\PageView $pageViews)
+    public function addPageView(PageView $pageView)
     {
-        $this->pageViews->removeElement($pageViews);
-    }
+        if ($pageView->getSession() !== $this) {
+            $pageView->setSession($this);
+        }
 
-    public function addDevice(Device $device)
-    {
-        $this->devices[] = $device;
-        $device->setSession($this);
+        if (!$this->pageViews->contains($pageView)) {
+            $this->pageViews->add($pageView);
+        }
 
         return $this;
     }
 
+    /**
+     * @param PageView $pageViews
+     *
+     * @return $this
+     */
+    public function removePageView(PageView $pageViews)
+    {
+        $this->pageViews->removeElement($pageViews);
+
+        return $this;
+    }
+
+    public function addDevice(Device $device)
+    {
+        if ($device->getSession() !== $this) {
+            $device->setSession($this);
+        }
+
+        if (!$this->devices->contains($device)) {
+            $this->devices->add($device);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Device $device
+     *
+     * @return $this
+     */
     public function removeDevice(Device $device)
     {
         $this->devices->removeElement($device);
+
+        return $this;
     }
 
-    public function getDevices()
+    /**
+     * @return Collection|Device[]
+     */
+    public function getDevices(): Collection
     {
         return $this->devices;
     }
 
     /**
-     * Get pageViews
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection|PageView[]
      */
-    public function getPageViews()
+    public function getPageViews(): Collection
     {
         return $this->pageViews;
     }
