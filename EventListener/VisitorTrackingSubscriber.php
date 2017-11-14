@@ -91,10 +91,6 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $response = $event->getResponse();
 
-        if ($this->requestHasUTMParameters($request)) {
-            $this->setUTMSessionCookies($request, $response);
-        }
-
         if (!$request->cookies->has(self::COOKIE_LIFETIME)) {
             $response->headers->setCookie(new Cookie(self::COOKIE_LIFETIME, $this->lifetime->getId(), new \DateTime("+2 years"), "/", null, false, false));
         }
@@ -141,7 +137,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
     {
         foreach ($this->utmCodes as $code) {
             $method = 'get'.Inflector::classify($code);
-            if ($request->query->get($code) != $this->session->$method()) {
+            if ($request->query->get($code, '') !== $this->session->$method()) {
                 return false;
             }
         }
