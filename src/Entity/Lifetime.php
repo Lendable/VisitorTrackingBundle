@@ -183,4 +183,15 @@ class Lifetime
 
         return $seed->getValue();
     }
+
+    public function hasSeed(string $name): bool
+    {
+        foreach ($this->seeds as $seed) {
+            if ($seed->getName() === $name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
