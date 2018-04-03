@@ -34,7 +34,7 @@ class Session
     /**
      * @var Collection|PageView[]
      *
-     * @ORM\OneToMany(targetEntity="PageView", mappedBy="session", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="PageView", mappedBy="session", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     protected $pageViews;
 
