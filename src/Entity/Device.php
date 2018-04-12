@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alpha\VisitorTrackingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -70,8 +72,6 @@ class Device
     protected $created;
 
     /**
-     * Get id
-     *
      * @return string
      */
     public function getId()
@@ -79,21 +79,14 @@ class Device
         return $this->id;
     }
 
-    public function setSession(Session $session = null)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
     public function getSession()
     {
         return $this->session;
     }
 
-    public function setFingerprint($fingerprint)
+    public function setSession(?Session $session = null)
     {
-        $this->fingerprint = $fingerprint;
+        $this->session = $session;
 
         return $this;
     }
@@ -103,11 +96,25 @@ class Device
         return $this->fingerprint;
     }
 
+    public function setFingerprint($fingerprint)
+    {
+        $this->fingerprint = $fingerprint;
+
+        return $this;
+    }
+
     /**
-     * Set created
-     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
      * @param  \DateTime $created
-     * @return Session
+     *
+     * @return $this
      */
     public function setCreated($created)
     {
@@ -117,20 +124,17 @@ class Device
     }
 
     /**
-     * Get created
-     *
-     * @return \DateTime
+     * @return string
      */
-    public function getCreated()
+    public function getCanvas()
     {
-        return $this->created;
+        return $this->canvas;
     }
 
     /**
-     * Set canvas
-     *
      * @param string $canvas
-     * @return Device
+     *
+     * @return $this
      */
     public function setCanvas($canvas)
     {
@@ -140,20 +144,17 @@ class Device
     }
 
     /**
-     * Get canvas
-     *
-     * @return string 
+     * @return string
      */
-    public function getCanvas()
+    public function getFonts()
     {
-        return $this->canvas;
+        return $this->fonts;
     }
 
     /**
-     * Set fonts
-     *
      * @param string $fonts
-     * @return Device
+     *
+     * @return $this
      */
     public function setFonts($fonts)
     {
@@ -163,20 +164,17 @@ class Device
     }
 
     /**
-     * Get fonts
-     *
-     * @return string 
+     * @return string
      */
-    public function getFonts()
+    public function getNavigator()
     {
-        return $this->fonts;
+        return $this->navigator;
     }
 
     /**
-     * Set navigator
-     *
      * @param string $navigator
-     * @return Device
+     *
+     * @return $this
      */
     public function setNavigator($navigator)
     {
@@ -186,20 +184,17 @@ class Device
     }
 
     /**
-     * Get navigator
-     *
-     * @return string 
+     * @return string
      */
-    public function getNavigator()
+    public function getPlugins()
     {
-        return $this->navigator;
+        return $this->plugins;
     }
 
     /**
-     * Set plugins
-     *
      * @param string $plugins
-     * @return Device
+     *
+     * @return $this
      */
     public function setPlugins($plugins)
     {
@@ -209,20 +204,17 @@ class Device
     }
 
     /**
-     * Get plugins
-     *
-     * @return string 
+     * @return string
      */
-    public function getPlugins()
+    public function getScreen()
     {
-        return $this->plugins;
+        return $this->screen;
     }
 
     /**
-     * Set screen
-     *
      * @param string $screen
-     * @return Device
+     *
+     * @return $this
      */
     public function setScreen($screen)
     {
@@ -232,20 +224,17 @@ class Device
     }
 
     /**
-     * Get screen
-     *
-     * @return string 
+     * @return string
      */
-    public function getScreen()
+    public function getSystemColors()
     {
-        return $this->screen;
+        return $this->systemColors;
     }
 
     /**
-     * Set systemColors
-     *
      * @param string $systemColors
-     * @return Device
+     *
+     * @return $this
      */
     public function setSystemColors($systemColors)
     {
@@ -255,35 +244,22 @@ class Device
     }
 
     /**
-     * Get systemColors
-     *
-     * @return string 
+     * @return string
      */
-    public function getSystemColors()
+    public function getStoredIds()
     {
-        return $this->systemColors;
+        return $this->storedIds;
     }
 
     /**
-     * Set storedIds
-     *
      * @param string $storedIds
-     * @return Device
+     *
+     * @return $this
      */
     public function setStoredIds($storedIds)
     {
         $this->storedIds = $storedIds;
 
         return $this;
-    }
-
-    /**
-     * Get storedIds
-     *
-     * @return string 
-     */
-    public function getStoredIds()
-    {
-        return $this->storedIds;
     }
 }

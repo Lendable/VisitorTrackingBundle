@@ -1,29 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alpha\VisitorTrackingBundle\Controller;
 
 use Alpha\VisitorTrackingBundle\Entity\Device;
-use Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber;
+use Alpha\VisitorTrackingBundle\Entity\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DeviceController extends Controller
 {
-    public function fingerprintAction(Request $request)
+    public function fingerprintAction(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cookie = $request->cookies->get(VisitorTrackingSubscriber::COOKIE_SESSION, false);
+        $session = $this->get('alpha.visitor_tracking.storage.session')->getSession();
         $device = null;
-        $session = null;
 
-        if ($cookie) {
-            $device = $em->getRepository('AlphaVisitorTrackingBundle:Device')->findOneBySession($cookie);
-            $session = $em->getRepository('AlphaVisitorTrackingBundle:Session')->find($cookie);
+        if ($session instanceof Session) {
+            if ($session->getDevices()->count() > 0) {
+                $device = $session->getDevices()->first();
+            }
         }
 
-        if (false === $device instanceof Device) {
+        if (!$device instanceof Device) {
             $device = new Device();
             $device->setFingerprint($request->getContent());
             $device->setSession($session);

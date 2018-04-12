@@ -71,7 +71,7 @@ class DeviceFingerprintManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new DeviceFingerprintManager();
         $manager->generateHashes($device);
 
-        $this->assertSame(md5(serialize("valid")), $device->getCanvas());
+        $this->assertSame(md5(serialize('valid')), $device->getCanvas());
         $this->assertSame(md5(serialize([3, 4])), $device->getScreen());
         $this->assertNull($device->getFonts());
         $this->assertNull($device->getNavigator());

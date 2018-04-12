@@ -3,7 +3,7 @@
 Visitor Tracking Bundle
 =======================
 
-A Symfony bundle to track your requests.
+A Symfony bundle to track requests.
 
 ## Upgrading from 0.x to 1.x
 
