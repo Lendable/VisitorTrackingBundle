@@ -409,7 +409,7 @@ class Session
     {
         $this->lifetime = $lifetime;
 
-        if (!$this->lifetime->getSessions()->contains($this)) {
+        if ($lifetime instanceof Lifetime && !$this->lifetime->getSessions()->contains($this)) {
             $this->lifetime->addSession($this);
         }
 
