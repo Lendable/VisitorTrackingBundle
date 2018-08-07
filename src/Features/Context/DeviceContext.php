@@ -41,7 +41,7 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
         $session->setLoanTerm('');
         $session->setRepApr('');
         foreach ($this->utmCodes as $code) {
-            $method = 'set'. Inflector::classify($code);
+            $method = 'set'.Inflector::classify($code);
             $session->$method('');
         }
 

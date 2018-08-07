@@ -7,7 +7,7 @@ namespace Alpha\VisitorTrackingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Seed
 {
@@ -117,7 +117,6 @@ class Seed
         foreach ($weights as $seed => $weight) {
             $total += $weight;
             if ($random <= $total) {
-
                 if (!\is_string($seed)) {
                     $seed = (string) $seed;
                 }
