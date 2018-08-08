@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name="session",indexes={@ORM\Index(name="session_created_index", columns={"created"})})
+ * @ORM\Entity
+ * @ORM\Table(name="session", indexes={@ORM\Index(name="session_created_index", columns={"created"})})
  */
 class Session
 {

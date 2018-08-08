@@ -7,7 +7,6 @@ use Alpha\VisitorTrackingBundle\Manager\DeviceFingerprintManager;
 
 class DeviceFingerprintManagerTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @test */
     public function noHashesAreGeneratedIfFingerprintIsEmpty()
     {
