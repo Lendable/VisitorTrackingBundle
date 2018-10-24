@@ -4,6 +4,8 @@ services:
         autowire: true
         tags:
             - 'controller.service_arguments'
+        bind:
+            $entityManager: '@doctrine.orm.entity_manager'
 
     Alpha\VisitorTrackingBundle\Controller\:
         resource: '../../Controller/*'
