@@ -1,4 +1,5 @@
-parameters:
+import:
+    - 'controllers.yml'
 
 services:
     alpha.visitor_tracking_subscriber:

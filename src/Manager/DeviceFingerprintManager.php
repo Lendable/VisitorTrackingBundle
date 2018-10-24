@@ -20,12 +20,12 @@ class DeviceFingerprintManager
 
     public function generateHashes(Device $device): Device
     {
-        $data = json_decode($device->getFingerprint(), true);
+        $data = \json_decode($device->getFingerprint(), true);
 
-        if (!empty($data) && JSON_ERROR_NONE === json_last_error()) {
+        if (\is_array($data) && \JSON_ERROR_NONE === \json_last_error()) {
             foreach (self::HASHES as $field) {
-                $method = 'set'.ucfirst($field);
-                $value = array_key_exists($field, $data) ? md5(serialize($data[$field])) : null;
+                $method = 'set'.\ucfirst($field);
+                $value = \array_key_exists($field, $data) ? \md5(\serialize($data[$field])) : null;
                 $device->$method($value);
             }
         }

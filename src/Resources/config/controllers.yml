@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: true # Controllers need to be public
+        autowire: true
+        tags:
+            - 'controller.service_arguments'
+
+    Alpha\VisitorTrackingBundle\Controller\:
+        resource: '../../Controller/*'

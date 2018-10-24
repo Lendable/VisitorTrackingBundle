@@ -39,29 +39,21 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
 
     protected const COOKIE_SESSION_TTL = '+2 years';
 
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    private $entityManager;
 
-    /**
-     * @var SessionStore
-     */
     private $sessionStore;
 
-    /**
-     * @var array
-     */
     private $firewallBlacklist;
 
-    /**
-     * @var FirewallMap
-     */
     private $firewallMap;
 
-    public function __construct(EntityManager $em, SessionStore $sessionStore, array $firewallBlacklist, FirewallMap $firewallMap)
-    {
-        $this->em = $em;
+    public function __construct(
+        EntityManager $entityManager,
+        SessionStore $sessionStore,
+        array $firewallBlacklist,
+        FirewallMap $firewallMap
+    ) {
+        $this->entityManager = $entityManager;
         $this->sessionStore = $sessionStore;
         $this->firewallBlacklist = $firewallBlacklist;
         $this->firewallMap = $firewallMap;
@@ -84,7 +76,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         }
 
         if ($request->cookies->has(self::COOKIE_SESSION)) {
-            $session = $this->em->getRepository(Session::class)->find($request->cookies->get(self::COOKIE_SESSION));
+            $session = $this->entityManager->getRepository(Session::class)->find($request->cookies->get(self::COOKIE_SESSION));
 
             if ($session instanceof Session && (!$this->requestHasUTMParameters($request) || $this->sessionMatchesRequestParameters($request))) {
                 $this->sessionStore->setSession($session);
@@ -112,6 +104,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         $response = $event->getResponse();
 
         if (!$request->cookies->has(self::COOKIE_LIFETIME)) {
+            \assert($session->getLifetime() instanceof Lifetime);
             $response->headers->setCookie(new Cookie(self::COOKIE_LIFETIME, $session->getLifetime()->getId(), new \DateTime('+2 years'), '/', null, false, false));
         }
 
@@ -127,17 +120,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         $pageView->setUrl($request->getUri());
         $session->addPageView($pageView);
 
-        $this->em->flush($session);
-    }
-
-    /**
-     * @deprecated Use the SessionStore directly.
-     *
-     * @return Session|null
-     */
-    public function getSession(): ?Session
-    {
-        return $this->sessionStore->getSession();
+        $this->entityManager->flush($session);
     }
 
     protected function requestHasUTMParameters(Request $request): bool
@@ -163,25 +146,28 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
 
     private function generateSessionAndLifetime(Request $request): void
     {
-        $lifetime = false;
+        $lifetime = null;
 
         if ($request->cookies->has(self::COOKIE_LIFETIME)) {
-            $lifetime = $this->em->getRepository(Lifetime::class)->find($request->cookies->get(self::COOKIE_LIFETIME));
+            $lifetime = $this->entityManager->getRepository(Lifetime::class)->find($request->cookies->get(self::COOKIE_LIFETIME));
         }
 
-        if (!$lifetime) {
+        if (!$lifetime instanceof Lifetime) {
             $lifetime = new Lifetime();
-            $this->em->persist($lifetime);
+            $this->entityManager->persist($lifetime);
+            $this->entityManager->flush($lifetime);
         }
 
         $session = new Session();
-        $this->em->persist($session);
+        $this->entityManager->persist($session);
         $session->setIp($request->getClientIp() ?: '');
-        $session->setReferrer($request->headers->get('Referer') ?: '');
-        $session->setUserAgent($request->headers->get('User-Agent') ?: '');
+        $referer = $request->headers->get('Referer');
+        $session->setReferrer(\is_string($referer) ? $referer : '');
+        $userAgent = $request->headers->get('User-Agent');
+        $session->setUserAgent(\is_string($userAgent) ? $userAgent : '');
         $session->setQueryString($request->getQueryString() ?: '');
         $session->setLoanTerm($request->query->get('y') ?: '');
-        $session->setRepApr($request->query->has('r') ? hexdec($request->query->get('r')) / 100 : '');
+        $session->setRepApr($request->query->has('r') ? (string) (\hexdec($request->query->get('r')) / 100) : '');
 
         foreach (self::UTM_CODES as $code) {
             $method = 'set'.Inflector::classify($code);
@@ -190,7 +176,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
 
         $lifetime->addSession($session);
 
-        $this->em->flush();
+        $this->entityManager->flush($session);
 
         $this->sessionStore->setSession($session);
     }

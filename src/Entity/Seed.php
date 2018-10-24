@@ -36,15 +36,11 @@ class Seed
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $value;
 
-    /**
-     * @param string $name
-     * @param int $numberOfValues
-     * @param array $weights
-     */
     public function __construct(string $name, int $numberOfValues, ?array $weights = null)
     {
         $this->name = $name;
@@ -102,7 +98,7 @@ class Seed
     private function setValue(int $numberOfValues, ?array $weights = null): void
     {
         if ($weights === null) {
-            $weights = array_fill(1, $numberOfValues, 1);
+            $weights = \array_fill(1, $numberOfValues, 1);
         }
 
         if (\count($weights) !== $numberOfValues) {
@@ -111,7 +107,7 @@ class Seed
 
         // This does not need to be cryptographically secure, mt_rand() is roughly 2x faster than random_int().
         /** @noinspection RandomApiMigrationInspection */
-        $random = mt_rand(1, array_sum($weights));
+        $random = \mt_rand(1, (int) \array_sum($weights));
         $total = 0;
 
         foreach ($weights as $seed => $weight) {
