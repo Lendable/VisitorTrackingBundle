@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alpha\VisitorTrackingBundle\Tests\Manager;
 
 use Alpha\VisitorTrackingBundle\Entity\Device;
 use Alpha\VisitorTrackingBundle\Manager\DeviceFingerprintManager;
+use PHPUnit\Framework\TestCase;
 
-class DeviceFingerprintManagerTest extends \PHPUnit_Framework_TestCase
+class DeviceFingerprintManagerTest extends TestCase
 {
     /** @test */
     public function noHashesAreGeneratedIfFingerprintIsEmpty()
@@ -70,8 +73,8 @@ class DeviceFingerprintManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new DeviceFingerprintManager();
         $manager->generateHashes($device);
 
-        $this->assertSame(md5(serialize('valid')), $device->getCanvas());
-        $this->assertSame(md5(serialize([3, 4])), $device->getScreen());
+        $this->assertSame(\md5(\serialize('valid')), $device->getCanvas());
+        $this->assertSame(\md5(\serialize([3, 4])), $device->getScreen());
         $this->assertNull($device->getFonts());
         $this->assertNull($device->getNavigator());
         $this->assertNull($device->getPlugins());

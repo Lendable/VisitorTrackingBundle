@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('alpha_visitor_tracking');
 
+        \assert($rootNode instanceof ArrayNodeDefinition);
         $rootNode->append($this->createSubscriberNode());
 
         return $treeBuilder;
@@ -23,6 +24,7 @@ class Configuration implements ConfigurationInterface
     private function createSubscriberNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder())->root('session_subscriber');
+        \assert($root instanceof ArrayNodeDefinition);
         $root->addDefaultsIfNotSet();
 
         $root->children()->arrayNode('firewall_blacklist')

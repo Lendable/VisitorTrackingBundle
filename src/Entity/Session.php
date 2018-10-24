@@ -25,7 +25,7 @@ class Session
     protected $id;
 
     /**
-     * @var Lifetime
+     * @var Lifetime|null
      *
      * @ORM\ManyToOne(targetEntity="Lifetime", inversedBy="sessions")
      */
@@ -161,11 +161,9 @@ class Session
     }
 
     /**
-     * @param  string $ip
-     *
-     * @return Session
+     * @param string $ip
      */
-    public function setIp($ip)
+    public function setIp($ip): self
     {
         $this->ip = $ip;
 
@@ -181,11 +179,9 @@ class Session
     }
 
     /**
-     * @param  string $referrer
-     *
-     * @return Session
+     * @param string $referrer
      */
-    public function setReferrer($referrer)
+    public function setReferrer($referrer): self
     {
         $this->referrer = $referrer;
 
@@ -201,11 +197,9 @@ class Session
     }
 
     /**
-     * @param  string $userAgent
-     *
-     * @return Session
+     * @param string $userAgent
      */
-    public function setUserAgent($userAgent)
+    public function setUserAgent($userAgent): self
     {
         $this->userAgent = $userAgent;
 
@@ -221,11 +215,9 @@ class Session
     }
 
     /**
-     * @param  string $queryString
-     *
-     * @return Session
+     * @param string $queryString
      */
-    public function setQueryString($queryString)
+    public function setQueryString($queryString): self
     {
         $this->queryString = $queryString;
 
@@ -241,11 +233,9 @@ class Session
     }
 
     /**
-     * @param  string $utmSource
-     *
-     * @return Session
+     * @param string $utmSource
      */
-    public function setUtmSource($utmSource)
+    public function setUtmSource($utmSource): self
     {
         $this->utmSource = $utmSource;
 
@@ -261,11 +251,9 @@ class Session
     }
 
     /**
-     * @param  string $utmMedium
-     *
-     * @return Session
+     * @param string $utmMedium
      */
-    public function setUtmMedium($utmMedium)
+    public function setUtmMedium($utmMedium): self
     {
         $this->utmMedium = $utmMedium;
 
@@ -281,11 +269,9 @@ class Session
     }
 
     /**
-     * @param  string $utmCampaign
-     *
-     * @return Session
+     * @param string $utmCampaign
      */
-    public function setUtmCampaign($utmCampaign)
+    public function setUtmCampaign($utmCampaign): self
     {
         $this->utmCampaign = $utmCampaign;
 
@@ -301,11 +287,9 @@ class Session
     }
 
     /**
-     * @param  string $utmTerm
-     *
-     * @return Session
+     * @param string $utmTerm
      */
-    public function setUtmTerm($utmTerm)
+    public function setUtmTerm($utmTerm): self
     {
         $this->utmTerm = $utmTerm;
 
@@ -321,11 +305,9 @@ class Session
     }
 
     /**
-     * @param  string $utmContent
-     *
-     * @return Session
+     * @param string $utmContent
      */
-    public function setUtmContent($utmContent)
+    public function setUtmContent($utmContent): self
     {
         $this->utmContent = $utmContent;
 
@@ -341,11 +323,9 @@ class Session
     }
 
     /**
-     * @param  string $loanTerm
-     *
-     * @return Session
+     * @param string $loanTerm
      */
-    public function setLoanTerm($loanTerm)
+    public function setLoanTerm($loanTerm): self
     {
         $this->loanTerm = $loanTerm;
 
@@ -361,11 +341,9 @@ class Session
     }
 
     /**
-     * @param  string $repApr
-     *
-     * @return Session
+     * @param string $repApr
      */
-    public function setRepApr($repApr)
+    public function setRepApr($repApr): self
     {
         $this->repApr = $repApr;
 
@@ -380,12 +358,7 @@ class Session
         return $this->created;
     }
 
-    /**
-     * @param  \DateTime $created
-     *
-     * @return Session
-     */
-    public function setCreated(\DateTime $created)
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
@@ -393,35 +366,25 @@ class Session
     }
 
     /**
-     * @return Lifetime
+     * @return Lifetime|null
      */
     public function getLifetime()
     {
         return $this->lifetime;
     }
 
-    /**
-     * @param  Lifetime $lifetime
-     *
-     * @return Session
-     */
-    public function setLifetime(?Lifetime $lifetime = null)
+    public function setLifetime(?Lifetime $lifetime = null): self
     {
         $this->lifetime = $lifetime;
 
-        if ($lifetime instanceof Lifetime && !$this->lifetime->getSessions()->contains($this)) {
+        if ($lifetime instanceof Lifetime && $this->lifetime instanceof Lifetime && !$this->lifetime->getSessions()->contains($this)) {
             $this->lifetime->addSession($this);
         }
 
         return $this;
     }
 
-    /**
-     * @param  PageView $pageView
-     *
-     * @return Session
-     */
-    public function addPageView(PageView $pageView)
+    public function addPageView(PageView $pageView): self
     {
         if ($pageView->getSession() !== $this) {
             $pageView->setSession($this);
@@ -434,19 +397,14 @@ class Session
         return $this;
     }
 
-    /**
-     * @param PageView $pageViews
-     *
-     * @return $this
-     */
-    public function removePageView(PageView $pageViews)
+    public function removePageView(PageView $pageViews): self
     {
         $this->pageViews->removeElement($pageViews);
 
         return $this;
     }
 
-    public function addDevice(Device $device)
+    public function addDevice(Device $device): self
     {
         if ($device->getSession() !== $this) {
             $device->setSession($this);
@@ -459,12 +417,7 @@ class Session
         return $this;
     }
 
-    /**
-     * @param Device $device
-     *
-     * @return $this
-     */
-    public function removeDevice(Device $device)
+    public function removeDevice(Device $device): self
     {
         $this->devices->removeElement($device);
 
