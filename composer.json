@@ -46,7 +46,7 @@
         "phpstan/phpstan": "^0.10.5",
         "phpstan/phpstan-phpunit": "^0.10.0",
         "phpunit/phpunit": "^7.4",
-        "sensiolabs/security-checker": "^4.1",
+        "sensiolabs/security-checker": "^5.0",
         "symfony/phpunit-bridge": "^3.0|^4.0"
     },
 
