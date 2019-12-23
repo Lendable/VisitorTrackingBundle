@@ -27,6 +27,6 @@ class AlphaVisitorTrackingExtension extends Extension
     {
         $subscriber = $container->getDefinition(VisitorTrackingSubscriber::class);
 
-        $subscriber->replaceArgument('firewallBlacklist', $config['session_subscriber']['firewall_blacklist']);
+        $subscriber->replaceArgument('$firewallBlacklist', $config['session_subscriber']['firewall_blacklist']);
     }
 }
