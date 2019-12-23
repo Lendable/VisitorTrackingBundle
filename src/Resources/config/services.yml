@@ -2,18 +2,18 @@ imports:
     - { resource: 'controllers.yml' }
 
 services:
-    alpha.visitor_tracking_subscriber:
-        class: Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber
+    _defaults:
+        public: false
+        autowire: true
+        
+    Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber:
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@alpha.visitor_tracking.storage.session"
-            - [] # Firewall blacklist, populated from config.
-            - "@security.firewall.map"
+            $entityManager: "@doctrine.orm.entity_manager"
+            $firewallBlacklist: [] # Firewall blacklist, populated from config.
+            $firewallMap: "@security.firewall.map"
         tags:
             - { name: kernel.event_subscriber }
 
-    alpha.visitor_tracking.manager.device_fingerprint:
-        class: Alpha\VisitorTrackingBundle\Manager\DeviceFingerprintManager
+    Alpha\VisitorTrackingBundle\Manager\DeviceFingerprintManager:
 
-    alpha.visitor_tracking.storage.session:
-        class: Alpha\VisitorTrackingBundle\Storage\SessionStore
+    Alpha\VisitorTrackingBundle\Storage\SessionStore:
