@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Alpha\VisitorTrackingBundle\DependencyInjection;
 
+use Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -24,7 +25,7 @@ class AlphaVisitorTrackingExtension extends Extension
 
     private function handleFirewallBlacklist(ContainerBuilder $container, array $config): void
     {
-        $subscriber = $container->getDefinition('alpha.visitor_tracking_subscriber');
+        $subscriber = $container->getDefinition(VisitorTrackingSubscriber::class);
 
         $subscriber->replaceArgument(2, $config['session_subscriber']['firewall_blacklist']);
     }
