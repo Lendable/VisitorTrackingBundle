@@ -12,10 +12,10 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('alpha_visitor_tracking');
-
+        $treeBuilder = new TreeBuilder('alpha_visitor_tracking');
+        $rootNode = $treeBuilder->getRootNode();
         \assert($rootNode instanceof ArrayNodeDefinition);
+
         $rootNode->append($this->createSubscriberNode());
 
         return $treeBuilder;
@@ -23,15 +23,17 @@ class Configuration implements ConfigurationInterface
 
     private function createSubscriberNode(): ArrayNodeDefinition
     {
-        $root = (new TreeBuilder())->root('session_subscriber');
-        \assert($root instanceof ArrayNodeDefinition);
-        $root->addDefaultsIfNotSet();
+        $treeBuilder = new TreeBuilder('session_subscriber');
+        $rootNode = $treeBuilder->getRootNode();
+        \assert($rootNode instanceof ArrayNodeDefinition);
 
-        $root->children()->arrayNode('firewall_blacklist')
+        $rootNode->addDefaultsIfNotSet();
+
+        $rootNode->children()->arrayNode('firewall_blacklist')
             ->defaultValue([])
             ->prototype('scalar')
             ->cannotBeEmpty();
 
-        return $root;
+        return $rootNode;
     }
 }
