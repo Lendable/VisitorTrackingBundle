@@ -12,8 +12,14 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('alpha_visitor_tracking');
-        $rootNode = $treeBuilder->getRootNode();
+        $isBeforeSymfony4 = method_exists(TreeBuilder::class, 'root');
+        if ($isBeforeSymfony4) {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('alpha_visitor_tracking');
+        } else {
+            $treeBuilder = new TreeBuilder('alpha_visitor_tracking');
+            $rootNode = $treeBuilder->getRootNode();
+        }
         \assert($rootNode instanceof ArrayNodeDefinition);
 
         $rootNode->append($this->createSubscriberNode());
