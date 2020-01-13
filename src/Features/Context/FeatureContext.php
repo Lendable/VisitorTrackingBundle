@@ -20,7 +20,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
      * @param string $name
      * @param string $value
      */
-    public function theCookieHasTheValue($name, $value)
+    public function theCookieHasTheValue($name, $value): void
     {
         $this->getSession()->setCookie($name, $value);
     }

@@ -1,0 +1,25 @@
+includes:
+	- %rootDir%/../../../vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+	inferPrivatePropertyTypeFromConstructor: true
+	checkGenericClassInNonGenericObjectType: false
+	checkMissingIterableValueType: false
+
+services:
+    -
+        class: SlamPhpStan\GotoRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: SlamPhpStan\PhpUnitFqcnAnnotationRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: SlamPhpStan\StringToClassRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: SlamPhpStan\UnusedVariableRule
+        tags:
+            - phpstan.rules.rule

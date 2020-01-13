@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class PageView
 {
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -20,16 +22,22 @@ class PageView
     protected $id;
 
     /**
+     * @var Session
+     *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="pageViews")
      */
     protected $session;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     protected $url;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
@@ -52,7 +60,7 @@ class PageView
     }
 
     /**
-     * @param  string $url
+     * @param string $url
      *
      * @return $this
      */
@@ -72,7 +80,7 @@ class PageView
     }
 
     /**
-     * @param  \DateTime $created
+     * @param \DateTime $created
      *
      * @return $this
      */
@@ -92,11 +100,9 @@ class PageView
     }
 
     /**
-     * @param  Session $session
-     *
      * @return $this
      */
-    public function setSession(?Session $session = null)
+    public function setSession(Session $session)
     {
         $this->session = $session;
 
