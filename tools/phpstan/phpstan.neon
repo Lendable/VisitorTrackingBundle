@@ -5,7 +5,7 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	checkGenericClassInNonGenericObjectType: false
 	checkMissingIterableValueType: false
-	reportUnmatchedIgnoredErrors: true
+	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		- "#Call to function method_exists() with 'Symfony\\\\Component…' and 'getRootNode' will always evaluate to false.#"
 
