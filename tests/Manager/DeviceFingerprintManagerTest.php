@@ -10,62 +10,38 @@ use PHPUnit\Framework\TestCase;
 
 class DeviceFingerprintManagerTest extends TestCase
 {
-    /** @test */
-    public function noHashesAreGeneratedIfFingerprintIsEmpty()
+    public function badFingerprintData(): iterable
+    {
+        yield 'empty' => [''];
+        yield 'invalid json' => ['{"aaa" "invalid'];
+        yield 'only non-existing keys provided' => ['{"aaa": "valid", "bbb": [3, 4]}'];
+    }
+
+    /**
+     * @test
+     * @dataProvider badFingerprintData
+     */
+    public function noHashesAreGeneratedIfFingerprintDataIsBad(string $fingerprintData): void
     {
         $device = new Device();
-        $device->setFingerprint('');
+        $device->setFingerprint($fingerprintData);
 
         $manager = new DeviceFingerprintManager();
         $manager->generateHashes($device);
 
-        $this->assertNull($device->getCanvas());
-        $this->assertNull($device->getFonts());
-        $this->assertNull($device->getNavigator());
-        $this->assertNull($device->getPlugins());
-        $this->assertNull($device->getScreen());
-        $this->assertNull($device->getStoredIds());
-        $this->assertNull($device->getSystemColors());
+        $this->assertEmpty($device->getCanvas());
+        $this->assertEmpty($device->getFonts());
+        $this->assertEmpty($device->getNavigator());
+        $this->assertEmpty($device->getPlugins());
+        $this->assertEmpty($device->getScreen());
+        $this->assertEmpty($device->getStoredIds());
+        $this->assertEmpty($device->getSystemColors());
     }
 
-    /** @test */
-    public function noHashesAreGeneratedIfJsonIsInvalid()
-    {
-        $device = new Device();
-        $device->setFingerprint('{"aaa" "invalid');
-
-        $manager = new DeviceFingerprintManager();
-        $manager->generateHashes($device);
-
-        $this->assertNull($device->getCanvas());
-        $this->assertNull($device->getFonts());
-        $this->assertNull($device->getNavigator());
-        $this->assertNull($device->getPlugins());
-        $this->assertNull($device->getScreen());
-        $this->assertNull($device->getStoredIds());
-        $this->assertNull($device->getSystemColors());
-    }
-
-    /** @test */
-    public function noHashesAreGeneratedIfKeysDoNotExist()
-    {
-        $device = new Device();
-        $device->setFingerprint('{"aaa": "valid", "bbb": [3, 4]}');
-
-        $manager = new DeviceFingerprintManager();
-        $manager->generateHashes($device);
-
-        $this->assertNull($device->getCanvas());
-        $this->assertNull($device->getFonts());
-        $this->assertNull($device->getNavigator());
-        $this->assertNull($device->getPlugins());
-        $this->assertNull($device->getScreen());
-        $this->assertNull($device->getStoredIds());
-        $this->assertNull($device->getSystemColors());
-    }
-
-    /** @test */
-    public function hashesAreGeneratedForExistingKeys()
+    /**
+     * @test
+     */
+    public function hashesAreGeneratedForExistingKeys(): void
     {
         $device = new Device();
         $device->setFingerprint('{"canvas": "valid", "screen": [3, 4]}');
@@ -75,10 +51,10 @@ class DeviceFingerprintManagerTest extends TestCase
 
         $this->assertSame(\md5(\serialize('valid')), $device->getCanvas());
         $this->assertSame(\md5(\serialize([3, 4])), $device->getScreen());
-        $this->assertNull($device->getFonts());
-        $this->assertNull($device->getNavigator());
-        $this->assertNull($device->getPlugins());
-        $this->assertNull($device->getStoredIds());
-        $this->assertNull($device->getSystemColors());
+        $this->assertEmpty($device->getFonts());
+        $this->assertEmpty($device->getNavigator());
+        $this->assertEmpty($device->getPlugins());
+        $this->assertEmpty($device->getStoredIds());
+        $this->assertEmpty($device->getSystemColors());
     }
 }

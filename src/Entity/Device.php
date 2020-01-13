@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Device
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -20,70 +22,96 @@ class Device
     protected $id;
 
     /**
+     * @var Session|null
+     *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="devices")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $session;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="json_array")
      */
     protected $fingerprint;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $canvas;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $fonts;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $navigator;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $plugins;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $screen;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $systemColors;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $storedIds;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     protected $created;
 
     /**
-     * @return string
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return Session|null
+     */
     public function getSession()
     {
         return $this->session;
     }
 
+    /**
+     * @return $this
+     */
     public function setSession(?Session $session = null)
     {
         $this->session = $session;
@@ -91,11 +119,19 @@ class Device
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFingerprint()
     {
         return $this->fingerprint;
     }
 
+    /**
+     * @param string $fingerprint
+     *
+     * @return $this
+     */
     public function setFingerprint($fingerprint)
     {
         $this->fingerprint = $fingerprint;
@@ -112,7 +148,7 @@ class Device
     }
 
     /**
-     * @param  \DateTime $created
+     * @param \DateTime $created
      *
      * @return $this
      */
@@ -124,7 +160,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getCanvas()
     {
@@ -144,7 +180,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getFonts()
     {
@@ -164,7 +200,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getNavigator()
     {
@@ -184,7 +220,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPlugins()
     {
@@ -204,7 +240,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getScreen()
     {
@@ -224,7 +260,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getSystemColors()
     {
@@ -244,7 +280,7 @@ class Device
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getStoredIds()
     {

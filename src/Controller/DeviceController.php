@@ -48,7 +48,7 @@ class DeviceController
 
         if (!$device instanceof Device) {
             $device = new Device();
-            $device->setFingerprint($request->getContent());
+            $device->setFingerprint((string) $request->getContent());
             $device->setSession($session);
 
             $this->deviceFingerprintManager->generateHashes($device);
