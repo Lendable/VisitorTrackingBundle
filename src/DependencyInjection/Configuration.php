@@ -12,8 +12,13 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('alpha_visitor_tracking');
-        $rootNode = $treeBuilder->getRootNode();
+        if ($this->isBeforeSymfony4()) {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('alpha_visitor_tracking');
+        } else {
+            $treeBuilder = new TreeBuilder('alpha_visitor_tracking');
+            $rootNode = $treeBuilder->getRootNode();
+        }
         \assert($rootNode instanceof ArrayNodeDefinition);
 
         $rootNode->append($this->createSubscriberNode());
@@ -23,8 +28,13 @@ class Configuration implements ConfigurationInterface
 
     private function createSubscriberNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder('session_subscriber');
-        $rootNode = $treeBuilder->getRootNode();
+        if ($this->isBeforeSymfony4()) {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('session_subscriber');
+        } else {
+            $treeBuilder = new TreeBuilder('session_subscriber');
+            $rootNode = $treeBuilder->getRootNode();
+        }
         \assert($rootNode instanceof ArrayNodeDefinition);
 
         $rootNode->addDefaultsIfNotSet();
@@ -35,5 +45,10 @@ class Configuration implements ConfigurationInterface
             ->cannotBeEmpty();
 
         return $rootNode;
+    }
+
+    private function isBeforeSymfony4(): bool
+    {
+        return !\method_exists(TreeBuilder::class, 'getRootNode');
     }
 }
