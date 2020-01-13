@@ -7,7 +7,7 @@ use Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManagerInterface;
 use Alpha\VisitorTrackingBundle\Entity\Lifetime;
 
@@ -15,6 +15,9 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
 {
     private $entityManager;
 
+    /**
+     * @var array<int, string>
+     */
     private $utmCodes = [
         'utm_source',
         'utm_medium',
@@ -31,7 +34,7 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
     /**
      * @Given /^a user session exists$/
      */
-    public function theCookieHasTheValue()
+    public function theCookieHasTheValue(): void
     {
         $session = new Session();
         $session->setIp('127.0.0.1');

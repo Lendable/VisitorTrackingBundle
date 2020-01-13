@@ -147,6 +147,9 @@ class Session
         return $id;
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
