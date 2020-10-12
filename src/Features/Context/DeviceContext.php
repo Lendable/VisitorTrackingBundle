@@ -7,7 +7,7 @@ use Alpha\VisitorTrackingBundle\EventListener\VisitorTrackingSubscriber;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Alpha\VisitorTrackingBundle\Entity\Lifetime;
 
@@ -44,7 +44,7 @@ class DeviceContext extends RawMinkContext implements Context, SnippetAcceptingC
         $session->setLoanTerm('');
         $session->setRepApr('');
         foreach ($this->utmCodes as $code) {
-            $method = 'set'.Inflector::classify($code);
+            $method = 'set'.InflectorFactory::create()->build()->classify($code);
             $session->$method('');
         }
 

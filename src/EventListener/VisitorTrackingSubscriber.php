@@ -8,7 +8,7 @@ use Alpha\VisitorTrackingBundle\Entity\Lifetime;
 use Alpha\VisitorTrackingBundle\Entity\PageView;
 use Alpha\VisitorTrackingBundle\Entity\Session;
 use Alpha\VisitorTrackingBundle\Storage\SessionStore;
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -170,7 +170,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         $session->setRepApr($request->query->has('r') ? (string) (\hexdec($request->query->get('r')) / 100) : '');
 
         foreach (self::UTM_CODES as $code) {
-            $method = 'set'.Inflector::classify($code);
+            $method = 'set'.InflectorFactory::create()->build()->classify($code);
             $session->$method($request->query->get($code) ?: '');
         }
 
@@ -209,7 +209,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         }
 
         foreach (self::UTM_CODES as $code) {
-            $method = 'get'.Inflector::classify($code);
+            $method = 'get'.InflectorFactory::create()->build()->classify($code);
 
             if ($request->query->get($code, '') !== $session->$method()) {
                 return false;
