@@ -34,7 +34,8 @@
         "doctrine/orm": "~2.1",
         "stof/doctrine-extensions-bundle": "*",
         "symfony/framework-bundle": "^3.4|^4.0",
-        "symfony/security-bundle": "^3.4|^4.0"
+        "symfony/security-bundle": "^3.4|^4.0",
+        "doctrine/inflector": "^1.4"
     },
     "require-dev": {
         "behat/behat": "^3.4",
