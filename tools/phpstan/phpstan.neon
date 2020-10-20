@@ -7,7 +7,7 @@ parameters:
 	checkMissingIterableValueType: false
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
-		- "#Call to function method_exists() with 'Symfony\\\\Component…' and 'getRootNode' will always evaluate to false.#"
+		- "#Call to function method_exists\\(\\) with 'Symfony\\\\Component…' and 'getRootNode' will always evaluate to false.#"
 
 services:
     -

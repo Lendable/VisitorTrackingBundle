@@ -32,6 +32,7 @@
         "ext-json": "*",
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/orm": "~2.1",
+        "doctrine/inflector": "^1.4",
         "stof/doctrine-extensions-bundle": "*",
         "symfony/framework-bundle": "^3.4|^4.0",
         "symfony/security-bundle": "^3.4|^4.0"
