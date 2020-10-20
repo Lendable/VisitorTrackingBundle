@@ -167,7 +167,7 @@ class VisitorTrackingSubscriber implements EventSubscriberInterface
         $session->setUserAgent(\is_string($userAgent) ? $userAgent : '');
         $session->setQueryString($request->getQueryString() ?: '');
         $session->setLoanTerm($request->query->get('y') ?: '');
-        $session->setRepApr($request->query->has('r') ? (string) (\hexdec($request->query->get('r')) / 100) : '');
+        $session->setRepApr($request->query->has('r') ? (string) (\hexdec((string) $request->query->get('r')) / 100) : '');
 
         foreach (self::UTM_CODES as $code) {
             $method = 'set'.InflectorFactory::create()->build()->classify($code);
