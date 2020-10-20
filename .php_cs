@@ -54,7 +54,7 @@ return \PhpCsFixer\Config::create()
             'no_trailing_comma_in_singleline_array' => true,
             'no_unneeded_control_parentheses' => true,
             'no_unneeded_curly_braces' => true,
-            'no_unneeded_final_method' => true,
+            'no_unneeded_final_method' => false,
             'no_unreachable_default_argument_value' => false,
             'no_unused_imports' => true,
             'no_useless_else' => true,
